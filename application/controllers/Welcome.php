@@ -64,7 +64,7 @@ class Welcome extends CI_Controller {
         $user_name=$this->input->post('email');
         $password=$this->input->post('password');
         if(!$this->users_model->check_email($user_name)){
-            $this->users_model->register($user_name,$password)
+            $this->users_model->register($user_name,$password);
         }else{
             redirect(base_url());
         };

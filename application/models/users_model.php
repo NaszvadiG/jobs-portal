@@ -18,7 +18,21 @@ class Users_model extends CI_Model {
 	function add_new_user($data){
 	    $this->db->insert('user', $data);
 	}
-	
+    function register($user_name,$password){
+	    $this->db->insert('user', array('email'=>$username,'password'=>$password));
+	}
+    
+    function check_email($email){
+		$this->db->select('*');
+		$this->db->where('email',$email);
+		$query=$this->db->get('user');
+		$query=$query->row_array(); 
+        if(!empty($query)){
+                return true;
+            }else{
+                return false;
+            }
+	}
 	function get_username_by_email($email){
 		$this->db->select('username');
 		$this->db->where('email = "'.$email.'"');
