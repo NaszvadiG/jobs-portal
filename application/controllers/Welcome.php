@@ -3,21 +3,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 class Welcome extends CI_Controller {
 
-	/**
-	 * Index Page for this controller.
-	 *
-	 * Maps to the following URL
-	 * 		http://example.com/index.php/welcome
-	 *	- or -
-	 * 		http://example.com/index.php/welcome/index
-	 *	- or -
-	 * Since this controller is set as the default controller in
-	 * config/routes.php, it's displayed at http://example.com/
-	 *
-	 * So any other public methods not prefixed with an underscore will
-	 * map to /index.php/welcome/<method_name>
-	 * @see http://codeigniter.com/user_guide/general/urls.html
-	 */
+    public function __construct(){
+        parent::__construct();
+        $this->load->model('users_model');
+        $this->load->library('session');
+    }
 	public function index()
 	{
 		$result['users'] = $this->users_model->get_user_details();
@@ -25,8 +15,19 @@ class Welcome extends CI_Controller {
 		$this->load->view('index',$result);
 	}
 
-	public function personal_info(){
-		$this->load->view('personalInfo');	
+	public function profile(){
+        $user=$this->session->userdata('logged_in');
+        if(!empty($user)){
+            $data['user']=$user;
+            $this->load->view('user/personalInfo',$data);
+        }else{
+            redirect(base_url());
+        }
+		//	
+	}
+    public function logout(){
+        $user=$this->session->sess_destroy();
+        redirect(base_url());
 	}
 	public function add_new_user(){
 
@@ -44,10 +45,30 @@ class Welcome extends CI_Controller {
 			'lname' => $this->input->post('lname') ,
 	    	'gender' => $this->input->post('gender'),
 	    	'address' => $this->input->post('address') );
-	     var_dump($data);
+	           var_dump($data);
 	    	$this->users_model->add_new_user($data);
     		redirect(base_url(),'refresh');
 	}
+    
+    public function login(){
+        $user_name=$this->input->post('email');
+        $password=$this->input->post('password');
+        if($this->users_model->authenticate($user_name,$password)){
+            redirect(base_url('profile'));
+        }else{
+            redirect(base_url());
+        };
+    }
+    
+    public function register(){
+        $user_name=$this->input->post('email');
+        $password=$this->input->post('password');
+        if(!$this->users_model->check_email($user_name)){
+            $this->users_model->register($user_name,$password)
+        }else{
+            redirect(base_url());
+        };
+    }
 
 
 	

@@ -32,7 +32,20 @@
               <li><a href="<?php echo base_url(); ?>recruiters">Recruiters</a></li>
                <li><a href="<?php echo base_url(); ?>companies">Companies</a></li>
               <!-- Dropdown Trigger -->
-              <li><a class="waves-effect waves-light modal-trigger" href="#login_modal">Login</a></li>
+              <li>
+                  <?php 
+                    $user=$this->session->userdata('logged_in');
+                if(!empty($user)){?>
+                                        <a class='waves-effect waves-light' href='<?php echo base_url('logout');?>'><?php echo $this->session->userdata('logged_in')['email'];?></a>
+               
+               <?php }else{
+                    echo "<a class='waves-effect waves-light modal-trigger' href='#login_modal'>Login</a>";
+                }
+                  
+                  ?>
+
+                
+                </li>
               <!-- <li><a class="dropdown-button" href="#!" data-activates="subMenu">Login<i class="material-icons right">arrow_drop_down</i></a></li> -->
             </ul>
           </div>
@@ -42,16 +55,17 @@
 
   <!-- Login Modal Structure -->
   <div id="login_modal" class="modal login">
+      <form action="<?php echo base_url('welcome/login');?>" method="post">
     <div class="modal-content">
-      <h6 class="text-center">Jonseeker / Company Login</h6>
+      <h6 class="text-center">Jobseeker / Company Login</h6>
       <h6> &nbsp;</h6>
       <div class="row">
           <div class="input-field col s12">
-              <input id="username" type="email" class="validate" name="username" required>
+              <input id="username" type="email" class="validate" name="email" required>
               <label for="username">Email id</label>
           </div>
           <div class="input-field col s12">
-            <input id="login_pwd" type="password" class="validate" name="login_pwd" required>
+            <input id="login_pwd" type="password" class="validate" name="password" required>
             <label for="login_pwd"  >Password</label>
           </div>
           
@@ -60,7 +74,7 @@
     <div class="modal-footer">
       <div class="row">
           <div class="col s6 offset-s6 ">
-            <a href="" class=" modal-action modal-close waves-effect waves-green btn ">Login</a>
+            <button type="submit" class=" modal-action waves-effect waves-green btn ">Login</button>
           </div>
           <div class="col s6"> 
             <h6 class="pull-left"> Not yet register <a href="" class="modal-action modal-close modal-register"> Register </a> </h6>
@@ -70,6 +84,7 @@
           </div>
       </div>
     </div>
+      </form>
   </div>
 
 <!-- Register Modal Structure -->

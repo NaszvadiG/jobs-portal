@@ -29,9 +29,10 @@
                   <li>
                     <div class="collapsible-header active  blue lighten-3"># Personal Details</div>
                     <div class="collapsible-body">
-                       <form>
+                       <form method="post" id="update_profile" action="<?php echo base_url('welcome/update_profile');?>">
                         <div class="row">
                           <div class="input-field col s6">
+                              <input  type="hidden"  name="id" value="<?php echo $user['id'];?>" required>
                             <input id="fname" type="text" class="validate" name="fname" required>
                             <label for="fname">First name</label>
                           </div>
@@ -312,5 +313,11 @@
         </div>
 
       </div>
+
+<script>
+    $('#update_profile').on('submit',function(response){
+       console.log(this.formData); 
+    });
+</script>
 
 <?php $this->load->view('footer'); ?>

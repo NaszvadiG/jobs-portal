@@ -62,7 +62,8 @@ $route['add_new_user']= 'Welcome/add_new_user';
 $route['add_new_media']='cms_admin/add_new_media';
 
 /* Candidate information */
-$route['profile']='cms_user/candidate_profile';
+$route['profile']='Welcome/profile';
+$route['logout']='Welcome/logout';
 $route['snapshot']='cms_user/candidate_info';
 $route['projects']='cms_user/projects';
 $route['education']='cms_user/education';

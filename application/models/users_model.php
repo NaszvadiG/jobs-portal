@@ -26,6 +26,20 @@ class Users_model extends CI_Model {
 		$query=$query->row_array(); 
 		return $query['username'];
 	}
+    function authenticate($email,$password){
+		$this->db->select('*');
+		$this->db->where('email',$email);
+		$query=$this->db->get('user');
+		$query=$query->row_array(); 
+        if(!empty($query)){
+            if($password==$query['password']){
+                $this->session->set_userdata('logged_in',$query);
+                return true;
+            }else{
+                return false;
+            }
+        }
+	}
 	
 	function get_email_by_username($username){
 		$this->db->select('email');
